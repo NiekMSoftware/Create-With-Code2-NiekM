@@ -12,19 +12,37 @@ public class SpawnManager : MonoBehaviour
     // Spawn position of obstacles
     Vector3 _spawnPos = new Vector3(20, 0, 0);
     
+    // Left bound for Obstacles
+    float _leftBound = -15f;
+    
     // Interval floats
     float _startDelay = 2;
     float _repeatRate = 3.5f;
 
+    // Player Controller script
+    PlayerController _playerController;
+
     void Start() {
         this.InvokeRepeating("SpawnObstacles", this._startDelay, this._repeatRate);
+        
+        // Get the Player object and it's Controller
+        this._playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     void SpawnObstacles() {
-        // Randomize the objects
-        int obstacleIndex = Random.Range(0, this.obstaclePrefabs.Length);
+        // Check if it isn't game over
+        if (this._playerController.gameOver == false) {
+            // Randomize the objects
+            int obstacleIndex = Random.Range(0, this.obstaclePrefabs.Length);
         
-        Instantiate(this.obstaclePrefabs[obstacleIndex], this._spawnPos, 
-            this.obstaclePrefabs[obstacleIndex].transform.rotation);
+            // Spawn in randomized Obstacles
+            Instantiate(this.obstaclePrefabs[obstacleIndex], this._spawnPos, 
+                this.obstaclePrefabs[obstacleIndex].transform.rotation);
+        }
+
+        // Check if it is the obstacle that is out of bounds and destroy it
+        if (transform.position.x < this._leftBound && gameObject.CompareTag("Obstacle")) {
+            Destroy(gameObject);
+        }
     }
 }
