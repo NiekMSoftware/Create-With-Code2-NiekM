@@ -12,9 +12,6 @@ public class SpawnManager : MonoBehaviour
     // Spawn position of obstacles
     Vector3 _spawnPos = new Vector3(20, 0, 0);
     
-    // Left bound for Obstacles
-    float _leftBound = -15f;
-    
     // Interval floats
     float _startDelay = 2;
     float _repeatRate = 3.5f;
@@ -38,11 +35,6 @@ public class SpawnManager : MonoBehaviour
             // Spawn in randomized Obstacles
             Instantiate(this.obstaclePrefabs[obstacleIndex], this._spawnPos, 
                 this.obstaclePrefabs[obstacleIndex].transform.rotation);
-        }
-
-        // Check if it is the obstacle that is out of bounds and destroy it
-        if (transform.position.x < this._leftBound && gameObject.CompareTag("Obstacle")) {
-            Destroy(gameObject);
         }
     }
 }
