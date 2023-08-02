@@ -1,18 +1,29 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour {
     public List<GameObject> targets;
-
-    [Space] 
+    int _score;
+    
+    [Space]
+    
+    [SerializeField] TextMeshProUGUI scoreText;
+    
+    [Space]
     
     [SerializeField] float spawnRate;
     
     void Start() {
         StartCoroutine(this.SpawnTarget());
+
+        this._score = 0;
+    }
+
+    public void UpdateScore(int scoreToAdd) {
+        this._score += scoreToAdd;
+        this.scoreText.text = "Score: " + this._score;
     }
     
     IEnumerator SpawnTarget() {

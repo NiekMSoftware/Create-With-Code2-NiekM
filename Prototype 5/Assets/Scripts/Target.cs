@@ -17,7 +17,12 @@ public class Target : MonoBehaviour {
     // Range
     float _xRange = 4f;
     float _ySpawnPos = -6f;
+
+    GameManager _gameManager;
     
+    // Point value
+    [SerializeField] int pointValue;
+    [SerializeField] ParticleSystem explosionParticle;
 
     void Start() {
         this._targetRb = this.GetComponent<Rigidbody>();
@@ -31,10 +36,19 @@ public class Target : MonoBehaviour {
         
         // Randomize spawn Position
         transform.position = this.RandomSpawnPos();
+
+        // Get the Game Manager
+        this._gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     void OnMouseDown() {
         Destroy(gameObject);
+        
+        // Update Score when clicked on
+        this._gameManager.UpdateScore(this.pointValue);
+        
+        // Spawn in the particle system
+        Instantiate(this.explosionParticle, transform.position, this.explosionParticle.transform.rotation);
     }
 
     Vector3 RandomForce() {
