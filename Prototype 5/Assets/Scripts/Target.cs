@@ -67,8 +67,7 @@ public class Target : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         Destroy(gameObject);
-
-        // if the player didn't hit bad, game over
+        
         if (!gameObject.CompareTag("Bad")) {
             this._gameManager.GameOver();
         }

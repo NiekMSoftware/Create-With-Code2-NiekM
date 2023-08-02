@@ -10,8 +10,12 @@ public class GameManager : MonoBehaviour {
     
     public List<GameObject> targets;
     int _score;
+
+    [Header("GUI")] 
+    [SerializeField] GameObject titleScreen;
     
-    [Header("GUI")]
+    [Space]
+    
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] Button restartButton;
     [SerializeField] TextMeshProUGUI gameOverText;
@@ -19,13 +23,20 @@ public class GameManager : MonoBehaviour {
     [Space]
     
     [SerializeField] float spawnRate;
-    
-    void Start() {
+
+    public void StartGame(int difficulty) {
+        // Set the spawnRate based on difficulty
+        this.spawnRate /= difficulty;
+        
         StartCoroutine(this.SpawnTarget());
 
         this._score = 0;
 
+        // Set the game active
         this.isGameActive = true;
+        
+        // Turn off the title Screen
+        this.titleScreen.gameObject.SetActive(false);
     }
 
     public void UpdateScore(int scoreToAdd) {
