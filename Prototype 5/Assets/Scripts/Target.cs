@@ -42,13 +42,15 @@ public class Target : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        Destroy(gameObject);
+        if (this._gameManager.isGameActive) {
+            Destroy(gameObject);
         
-        // Update Score when clicked on
-        this._gameManager.UpdateScore(this.pointValue);
+            // Update Score when clicked on
+            this._gameManager.UpdateScore(this.pointValue);
         
-        // Spawn in the particle system
-        Instantiate(this.explosionParticle, transform.position, this.explosionParticle.transform.rotation);
+            // Spawn in the particle system
+            Instantiate(this.explosionParticle, transform.position, this.explosionParticle.transform.rotation);
+        }
     }
 
     Vector3 RandomForce() {
@@ -65,5 +67,10 @@ public class Target : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         Destroy(gameObject);
+
+        // if the player didn't hit bad, game over
+        if (!gameObject.CompareTag("Bad")) {
+            this._gameManager.GameOver();
+        }
     }
 }
