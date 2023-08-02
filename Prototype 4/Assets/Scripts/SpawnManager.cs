@@ -4,6 +4,7 @@ using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour {
     [SerializeField] GameObject enemy;
+    [SerializeField] GameObject boss;
     [SerializeField] GameObject powerUp;
 
     [Space] 
@@ -14,31 +15,25 @@ public class SpawnManager : MonoBehaviour {
     // private vars.
     float _spawnRange = 9f;
 
-    GameManager _gameManager;
-
     void Start() {
         this.SpawnEnemyWave(this.waveNumber);
         
         // Spawn in Powerup
         Instantiate(this.powerUp, this.GeneratePosition(), this.powerUp.transform.rotation);
         
-        // Get the game manager Object
-        this._gameManager = GameObject.Find("Game State Manager").GetComponent<GameManager>();
     }
 
     void Update() {
-        if (!this._gameManager.gameOver) {
-            // Count all the enemies
-            this._enemyCount = FindObjectsOfType<Enemy>().Length;
+        // Count all the enemies
+        this._enemyCount = FindObjectsOfType<Enemy>().Length;
 
-            if (this._enemyCount == 0) {
-                // Add a new wave
-                this.waveNumber++;
-                SpawnEnemyWave(this.waveNumber);
-            
-                // Spawn in a new Powerup
-                Instantiate(this.powerUp, this.GeneratePosition(), this.powerUp.transform.rotation);
-            }
+        if (this._enemyCount == 0) {
+            // Add a new wave
+            this.waveNumber++;
+            SpawnEnemyWave(this.waveNumber);
+        
+            // Spawn in a new Powerup
+            Instantiate(this.powerUp, this.GeneratePosition(), this.powerUp.transform.rotation);
         }
     }
 
